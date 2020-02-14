@@ -51,7 +51,7 @@ int main()
 
   if(pid == 0) {
     close(fd1[1]);
-    char[] read;
+    char read[];
     int m;
     read(fd1[0], read, 4);
 
