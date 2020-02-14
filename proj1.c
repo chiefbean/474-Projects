@@ -51,18 +51,23 @@ int main()
 
   if(pid == 0) {
     close(fd1[1]);
+    char[] read;
     int m;
-    read(fd1[0], m, 4);
+    read(fd1[0], read, 4);
+
+    sscanf(read, "%10d", m);
 
     double x;
     double sum = 0;
     char *output;
 
     for(int i = 0; i < m; i++) {
-      x = (float)i / (float)m;
+      x = (double)i / (double)m;
       sum += tanh(x);
+      printf("%6f\n", sum);
     }
 
+    printf("%6f\n", sum);
     sprintf(output, "%6f", sum);
 
     close(fd1[0]);
