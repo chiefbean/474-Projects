@@ -67,8 +67,8 @@ int main()
       //printf("%6f\n", sum);
     }
 
-    printf("%6f\n", sum);
     sprintf(output, "%6f", sum);
+    printf("%6f: %6s\n", sum, output);
 
     close(fd1[0]);
     close(fd2[0]);
