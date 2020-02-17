@@ -561,22 +561,33 @@ int main()
   printf("One Child:\n");
   printf("Small size (100,000,000)\n");
   oneProc(100000000);
-  // printf("Medium size (1,000,000,000)\n");
-  // oneProc(1000000000);
-  // printf("Large size (10,000,000,000)\n");
-  // oneProc(10000000000);
+  printf("Medium size (1,000,000,000)\n");
+  oneProc(1000000000);
+  printf("Large size (10,000,000,000)\n");
+  oneProc(10000000000);
 
   printf("Two Children:\n");
   printf("Small size (100,000,000)\n");
   twoProc(100000000);
-  // printf("Medium size (1,000,000,000)\n");
-  // twoProc(1000000000);
-  // printf("Large size (10,000,000,000)\n");
-  // twoProc(10000000000);
+  printf("Medium size (1,000,000,000)\n");
+  twoProc(1000000000);
+  printf("Large size (10,000,000,000)\n");
+  twoProc(10000000000);
 
   printf("Four Children:\n");
+  printf("Small size (100,000,000)\n");
   fourProc(100000000);
+  printf("Medium size (1,000,000,000)\n");
+  fourProc(1000000000);
+  printf("Large size (10,000,000,000)\n");
+  fourProc(10000000000);
 
   printf("Eight Children:\n");
+  printf("Small size (100,000,000)\n");
   eightProc(100000000);
+  printf("Medium size (1,000,000,000)\n");
+  eightProc(1000000000);
+  printf("Large size (10,000,000,000)\n");
+  eightProc(10000000000);
+
 }
