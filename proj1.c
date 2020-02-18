@@ -5,9 +5,10 @@
 #include <time.h>
 #include <signal.h>
 
-void oneProc(int size)
+void oneProc(double size)
 {
   clock_t before = clock();
+  time_t start = time(NULL);
   int pipeArray[2][2];
 
   pipe(pipeArray[0]);
@@ -15,7 +16,7 @@ void oneProc(int size)
 
   if(fork() == 0) {
     close(pipeArray[0][1]);
-    int m;
+    double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
     double x;
@@ -32,8 +33,11 @@ void oneProc(int size)
     close(pipeArray[1][1]);
 
     clock_t difference = clock() - before;
-    int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken by one process: %6d\n", msec);
+    long int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken by one process: %6ld msec\n", msec);
+
+    time_t diff = time(NULL) - start;
+    printf("Wall clock time taken by one process: %6ld sec\n", diff);
 
     kill(getpid(), SIGTERM);
   } else {
@@ -55,9 +59,10 @@ void oneProc(int size)
   }
 }
 
-void twoProc(int size)
+void twoProc(double size)
 {
   clock_t before = clock();
+  time_t start = time(NULL);
   int pipeArray[4][2];
 
   pipe(pipeArray[0]);
@@ -67,7 +72,7 @@ void twoProc(int size)
 
   if(fork() == 0) {
     close(pipeArray[0][1]);
-    int m;
+    double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
     double x;
@@ -84,13 +89,16 @@ void twoProc(int size)
     close(pipeArray[1][1]);
 
     clock_t difference = clock() - before;
-    int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken by two processes: %6d\n", msec);
+    long int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken by two processes: %6ld msec\n", msec);
+
+    time_t diff = time(NULL) - start;
+    printf("Wall clock time taken by two processes: %6ld sec\n", diff);
 
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[2][1]);
-    int m;
+    double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
     double x;
@@ -137,9 +145,10 @@ void twoProc(int size)
   }
 }
 
-void fourProc(int size)
+void fourProc(double size)
 {
   clock_t before = clock();
+  time_t start = time(NULL);
   int pipeArray[8][2];
 
   pipe(pipeArray[0]);
@@ -153,7 +162,7 @@ void fourProc(int size)
 
   if(fork() == 0) {
     close(pipeArray[0][1]);
-    int m;
+    double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
     double x;
@@ -170,13 +179,16 @@ void fourProc(int size)
     close(pipeArray[1][1]);
 
     clock_t difference = clock() - before;
-    int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken by four processes: %6d\n", msec);
+    long int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken by four processes: %6ld msec\n", msec);
+
+    time_t diff = time(NULL) - start;
+    printf("Wall clock time taken by four processes: %6ld sec\n", diff);
 
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[2][1]);
-    int m;
+    double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
     double x;
@@ -195,7 +207,7 @@ void fourProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[4][1]);
-    int m;
+    double m;
     read(pipeArray[4][0], &m, sizeof(m));
 
     double x;
@@ -214,7 +226,7 @@ void fourProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[6][1]);
-    int m;
+    double m;
     read(pipeArray[6][0], &m, sizeof(m));
 
     double x;
@@ -283,9 +295,10 @@ void fourProc(int size)
   }
 }
 
-void eightProc(int size)
+void eightProc(double size)
 {
   clock_t before = clock();
+  time_t start = time(NULL);
   int pipeArray[16][2];
 
   pipe(pipeArray[0]);
@@ -307,7 +320,7 @@ void eightProc(int size)
 
   if(fork() == 0) {
     close(pipeArray[0][1]);
-    int m;
+    double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
     double x;
@@ -324,13 +337,16 @@ void eightProc(int size)
     close(pipeArray[1][1]);
 
     clock_t difference = clock() - before;
-    int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken by eight processes: %6d\n", msec);
+    long int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken by eight processes: %6ld msec\n", msec);
+
+    time_t diff = time(NULL) - start;
+    printf("Wall clock time taken by eight processes: %6ld sec\n", diff);
 
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[2][1]);
-    int m;
+    double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
     double x;
@@ -349,7 +365,7 @@ void eightProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[4][1]);
-    int m;
+    double m;
     read(pipeArray[4][0], &m, sizeof(m));
 
     double x;
@@ -368,7 +384,7 @@ void eightProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[6][1]);
-    int m;
+    double m;
     read(pipeArray[6][0], &m, sizeof(m));
 
     double x;
@@ -387,7 +403,7 @@ void eightProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[8][1]);
-    int m;
+    double m;
     read(pipeArray[8][0], &m, sizeof(m));
 
     double x;
@@ -406,7 +422,7 @@ void eightProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[10][1]);
-    int m;
+    double m;
     read(pipeArray[10][0], &m, sizeof(m));
 
     double x;
@@ -425,7 +441,7 @@ void eightProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[12][1]);
-    int m;
+    double m;
     read(pipeArray[12][0], &m, sizeof(m));
 
     double x;
@@ -444,7 +460,7 @@ void eightProc(int size)
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[14][1]);
-    int m;
+    double m;
     read(pipeArray[14][0], &m, sizeof(m));
 
     double x;
