@@ -19,8 +19,8 @@ void oneProc(double size)
     double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 0; i <= m; i++) {
       x = (double)i / (double)m;
@@ -41,7 +41,7 @@ void oneProc(double size)
 
     kill(getpid(), SIGTERM);
   } else {
-    double hyTan;
+    long double hyTan;
     close(pipeArray[0][0]);
 
     write(pipeArray[0][1], &size, sizeof(size));
@@ -53,7 +53,7 @@ void oneProc(double size)
 
     read(pipeArray[1][0], &hyTan, sizeof(hyTan));
 
-    printf("Hyperbolic Tangent, One Process: %6f\n\n", hyTan);
+    printf("Hyperbolic Tangent, One Process: %6Lf\n\n", hyTan);
 
     close(pipeArray[1][0]);
   }
@@ -75,8 +75,8 @@ void twoProc(double size)
     double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 0; i < m/2; i++) {
       x = (double)i / (double)m;
@@ -88,21 +88,14 @@ void twoProc(double size)
     write(pipeArray[1][1], &sum, sizeof(sum));
     close(pipeArray[1][1]);
 
-    clock_t difference = clock() - before;
-    long int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken by two processes: %6ld msec\n", msec);
-
-    time_t diff = time(NULL) - start;
-    printf("Wall clock time taken by two processes: %6ld sec\n", diff);
-
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[2][1]);
     double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = m; i >= m/2; i--) {
       x = (double)i / (double)m;
@@ -114,11 +107,18 @@ void twoProc(double size)
     write(pipeArray[3][1], &sum, sizeof(sum));
     close(pipeArray[3][1]);
 
+    clock_t difference = clock() - before;
+    long int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken by two processes: %6ld msec\n", msec);
+
+    time_t diff = time(NULL) - start;
+    printf("Wall clock time taken by two processes: %6ld sec\n", diff);
+
     kill(getpid(), SIGTERM);
   } else {
-    double child1;
-    double child2;
-    double hyTan;
+    long double child1;
+    long double child2;
+    long double hyTan;
 
     close(pipeArray[0][0]);
     write(pipeArray[0][1], &size, sizeof(size));
@@ -140,7 +140,7 @@ void twoProc(double size)
 
     hyTan = child1 + child2;
 
-    printf("Hyperbolic Tangent, Two Processes: %6f\n\n", hyTan);
+    printf("Hyperbolic Tangent, Two Processes: %6Lf\n\n", hyTan);
     close(pipeArray[3][0]);
   }
 }
@@ -165,8 +165,8 @@ void fourProc(double size)
     double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 0; i < m/4; i++) {
       x = (double)i / (double)m;
@@ -178,21 +178,14 @@ void fourProc(double size)
     write(pipeArray[1][1], &sum, sizeof(sum));
     close(pipeArray[1][1]);
 
-    clock_t difference = clock() - before;
-    long int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken by four processes: %6ld msec\n", msec);
-
-    time_t diff = time(NULL) - start;
-    printf("Wall clock time taken by four processes: %6ld sec\n", diff);
-
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[2][1]);
     double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = m/4; i < m/2; i++) {
       x = (double)i / (double)m;
@@ -210,8 +203,8 @@ void fourProc(double size)
     double m;
     read(pipeArray[4][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = m/2; i < 3*(m/4); i++) {
       x = (double)i / (double)m;
@@ -229,8 +222,8 @@ void fourProc(double size)
     double m;
     read(pipeArray[6][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 3*(m/4); i <= m; i++) {
       x = (double)i / (double)m;
@@ -242,13 +235,20 @@ void fourProc(double size)
     write(pipeArray[7][1], &sum, sizeof(sum));
     close(pipeArray[7][1]);
 
+    clock_t difference = clock() - before;
+    long int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken by four processes: %6ld msec\n", msec);
+
+    time_t diff = time(NULL) - start;
+    printf("Wall clock time taken by four processes: %6ld sec\n", diff);
+
     kill(getpid(), SIGTERM);
   } else {
-    double child1;
-    double child2;
-    double child3;
-    double child4;
-    double hyTan;
+    long double child1;
+    long double child2;
+    long double child3;
+    long double child4;
+    long double hyTan;
 
     close(pipeArray[0][0]);
     write(pipeArray[0][1], &size, sizeof(size));
@@ -291,7 +291,7 @@ void fourProc(double size)
 
     hyTan = child1 + child2 + child3 + child4;
 
-    printf("Hyperbolic Tangent, Four Processes: %6f\n\n", hyTan);
+    printf("Hyperbolic Tangent, Four Processes: %6Lf\n\n", hyTan);
   }
 }
 
@@ -323,8 +323,8 @@ void eightProc(double size)
     double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 0; i < m/8; i++) {
       x = (double)i / (double)m;
@@ -336,21 +336,14 @@ void eightProc(double size)
     write(pipeArray[1][1], &sum, sizeof(sum));
     close(pipeArray[1][1]);
 
-    clock_t difference = clock() - before;
-    long int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken by eight processes: %6ld msec\n", msec);
-
-    time_t diff = time(NULL) - start;
-    printf("Wall clock time taken by eight processes: %6ld sec\n", diff);
-
     kill(getpid(), SIGTERM);
   } else if (fork() == 0) {
     close(pipeArray[2][1]);
     double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = m/8; i < m/4; i++) {
       x = (double)i / (double)m;
@@ -368,8 +361,8 @@ void eightProc(double size)
     double m;
     read(pipeArray[4][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = m/4; i < 3*(m/8); i++) {
       x = (double)i / (double)m;
@@ -387,8 +380,8 @@ void eightProc(double size)
     double m;
     read(pipeArray[6][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 3*(m/8); i < m/2; i++) {
       x = (double)i / (double)m;
@@ -406,8 +399,8 @@ void eightProc(double size)
     double m;
     read(pipeArray[8][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = m/2; i < 5*m/8; i++) {
       x = (double)i / (double)m;
@@ -425,8 +418,8 @@ void eightProc(double size)
     double m;
     read(pipeArray[10][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 5*m/8; i < 3*m/4; i++) {
       x = (double)i / (double)m;
@@ -444,8 +437,8 @@ void eightProc(double size)
     double m;
     read(pipeArray[12][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 3*(m/4); i < 7*m/8; i++) {
       x = (double)i / (double)m;
@@ -463,8 +456,8 @@ void eightProc(double size)
     double m;
     read(pipeArray[14][0], &m, sizeof(m));
 
-    double x;
-    double sum = 0;
+    long double x;
+    long double sum = 0;
 
     for(int i = 7*(m/8); i <= m; i++) {
       x = (double)i / (double)m;
@@ -476,17 +469,24 @@ void eightProc(double size)
     write(pipeArray[15][1], &sum, sizeof(sum));
     close(pipeArray[15][1]);
 
+    clock_t difference = clock() - before;
+    long int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken by eight processes: %6ld msec\n", msec);
+
+    time_t diff = time(NULL) - start;
+    printf("Wall clock time taken by eight processes: %6ld sec\n", diff);
+
     kill(getpid(), SIGTERM);
   } else {
-    double child1;
-    double child2;
-    double child3;
-    double child4;
-    double child5;
-    double child6;
-    double child7;
-    double child8;
-    double hyTan;
+    long double child1;
+    long double child2;
+    long double child3;
+    long double child4;
+    long double child5;
+    long double child6;
+    long double child7;
+    long double child8;
+    long double hyTan;
 
     close(pipeArray[0][0]);
     write(pipeArray[0][1], &size, sizeof(size));
@@ -568,35 +568,35 @@ void eightProc(double size)
 
     hyTan = child1 + child2 + child3 + child4 + child5 + child6 + child7 + child8;
 
-    printf("Hyperbolic Tangent, Eight Processes: %6f\n\n", hyTan);
+    printf("Hyperbolic Tangent, Eight Processes: %6Lf\n\n", hyTan);
   }
 }
 
 int main()
 {
-  printf("One Child:\n");
-  printf("Small size (100,000,000)\n");
-  oneProc(100000000);
-  printf("Medium size (1,000,000,000)\n");
-  oneProc(1000000000);
-  printf("Large size (10,000,000,000)\n");
-  oneProc(10000000000);
-
-  printf("Two Children:\n");
-  printf("Small size (100,000,000)\n");
-  twoProc(100000000);
-  printf("Medium size (1,000,000,000)\n");
-  twoProc(1000000000);
-  printf("Large size (10,000,000,000)\n");
-  twoProc(10000000000);
-
-  printf("Four Children:\n");
-  printf("Small size (100,000,000)\n");
-  fourProc(100000000);
-  printf("Medium size (1,000,000,000)\n");
-  fourProc(1000000000);
-  printf("Large size (10,000,000,000)\n");
-  fourProc(10000000000);
+  // printf("One Child:\n");
+  // printf("Small size (100,000,000)\n");
+  // oneProc(100000000);
+  // printf("Medium size (1,000,000,000)\n");
+  // oneProc(1000000000);
+  // printf("Large size (10,000,000,000)\n");
+  // oneProc(10000000000);
+  //
+  // printf("Two Children:\n");
+  // printf("Small size (100,000,000)\n");
+  // twoProc(100000000);
+  // printf("Medium size (1,000,000,000)\n");
+  // twoProc(1000000000);
+  // printf("Large size (10,000,000,000)\n");
+  // twoProc(10000000000);
+  //
+  // printf("Four Children:\n");
+  // printf("Small size (100,000,000)\n");
+  // fourProc(100000000);
+  // printf("Medium size (1,000,000,000)\n");
+  // fourProc(1000000000);
+  // printf("Large size (10,000,000,000)\n");
+  // fourProc(10000000000);
 
   printf("Eight Children:\n");
   printf("Small size (100,000,000)\n");
