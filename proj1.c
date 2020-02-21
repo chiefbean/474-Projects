@@ -498,6 +498,7 @@ void eightProc(double size)
     read(pipeArray[1][0], &child1, sizeof(child1));
     close(pipeArray[1][0]);
 
+    close(pipeArray[2][0]);
     write(pipeArray[2][1], &size, sizeof(size));
     close(pipeArray[2][1]);
 
@@ -537,6 +538,7 @@ void eightProc(double size)
     read(pipeArray[9][0], &child5, sizeof(child5));
     close(pipeArray[9][0]);
 
+    close(pipeArray[10][0]);
     write(pipeArray[10][1], &size, sizeof(size));
     close(pipeArray[10][1]);
 
@@ -574,29 +576,29 @@ void eightProc(double size)
 
 int main()
 {
-  printf("One Child:\n");
-  printf("Small size (100,000,000)\n");
-  oneProc(100000000);
-  printf("Medium size (1,000,000,000)\n");
-  oneProc(1000000000);
-  printf("Large size (10,000,000,000)\n");
-  oneProc(10000000000);
-
-  printf("Two Children:\n");
-  printf("Small size (100,000,000)\n");
-  twoProc(100000000);
-  printf("Medium size (1,000,000,000)\n");
-  twoProc(1000000000);
-  printf("Large size (10,000,000,000)\n");
-  twoProc(10000000000);
-
-  printf("Four Children:\n");
-  printf("Small size (100,000,000)\n");
-  fourProc(100000000);
-  printf("Medium size (1,000,000,000)\n");
-  fourProc(1000000000);
-  printf("Large size (10,000,000,000)\n");
-  fourProc(10000000000);
+  // printf("One Child:\n");
+  // printf("Small size (100,000,000)\n");
+  // oneProc(100000000);
+  // printf("Medium size (1,000,000,000)\n");
+  // oneProc(1000000000);
+  // printf("Large size (10,000,000,000)\n");
+  // oneProc(10000000000);
+  //
+  // printf("Two Children:\n");
+  // printf("Small size (100,000,000)\n");
+  // twoProc(100000000);
+  // printf("Medium size (1,000,000,000)\n");
+  // twoProc(1000000000);
+  // printf("Large size (10,000,000,000)\n");
+  // twoProc(10000000000);
+  //
+  // printf("Four Children:\n");
+  // printf("Small size (100,000,000)\n");
+  // fourProc(100000000);
+  // printf("Medium size (1,000,000,000)\n");
+  // fourProc(1000000000);
+  // printf("Large size (10,000,000,000)\n");
+  // fourProc(10000000000);
 
   printf("Eight Children:\n");
   printf("Small size (100,000,000)\n");
