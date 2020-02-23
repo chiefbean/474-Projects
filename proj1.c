@@ -19,11 +19,11 @@ void oneProc(double size)
     double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
-    long double x;
+    double x;
     long double sum = 0;
 
-    for(int i = 0; i <= m; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[0][0]);
@@ -75,11 +75,11 @@ void twoProc(double size)
     double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = 0; i < m/2; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[0][0]);
@@ -94,11 +94,11 @@ void twoProc(double size)
     double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = m; i >= m/2; i--) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[2][0]);
@@ -116,8 +116,8 @@ void twoProc(double size)
 
     kill(getpid(), SIGTERM);
   } else {
-    long double child1;
-    long double child2;
+    double child1;
+    double child2;
     long double hyTan;
 
     close(pipeArray[0][0]);
@@ -165,11 +165,11 @@ void fourProc(double size)
     double m;
     read(pipeArray[0][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = 0; i < m/4; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[0][0]);
@@ -184,11 +184,11 @@ void fourProc(double size)
     double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = m/4; i < m/2; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[2][0]);
@@ -203,11 +203,11 @@ void fourProc(double size)
     double m;
     read(pipeArray[4][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = m/2; i < 3*(m/4); i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[4][0]);
@@ -222,11 +222,11 @@ void fourProc(double size)
     double m;
     read(pipeArray[6][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = 3*(m/4); i <= m; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[6][0]);
@@ -244,10 +244,10 @@ void fourProc(double size)
 
     kill(getpid(), SIGTERM);
   } else {
-    long double child1;
-    long double child2;
-    long double child3;
-    long double child4;
+    double child1;
+    double child2;
+    double child3;
+    double child4;
     long double hyTan;
 
     close(pipeArray[0][0]);
@@ -343,11 +343,11 @@ void eightProc(double size)
     double m;
     read(pipeArray[2][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = m/8; i < m/4; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[2][0]);
@@ -362,11 +362,11 @@ void eightProc(double size)
     double m;
     read(pipeArray[4][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = m/4; i < 3*(m/8); i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[4][0]);
@@ -381,11 +381,11 @@ void eightProc(double size)
     double m;
     read(pipeArray[6][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = 3*(m/8); i < m/2; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[6][0]);
@@ -400,11 +400,11 @@ void eightProc(double size)
     double m;
     read(pipeArray[8][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = m/2; i < 5*m/8; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[8][0]);
@@ -419,11 +419,11 @@ void eightProc(double size)
     double m;
     read(pipeArray[10][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = 5*m/8; i < 3*m/4; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[10][0]);
@@ -438,11 +438,11 @@ void eightProc(double size)
     double m;
     read(pipeArray[12][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = 3*(m/4); i < 7*m/8; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[12][0]);
@@ -457,11 +457,11 @@ void eightProc(double size)
     double m;
     read(pipeArray[14][0], &m, sizeof(m));
 
-    long double x;
-    long double sum = 0;
+    double x;
+    double sum = 0;
 
-    for(int i = 7*(m/8); i <= m; i++) {
-      x = (double)i / (double)m;
+    for(double i = 0; i < m/8; i++) {
+      x = i / m;
       sum += tanh(x);
     }
     close(pipeArray[14][0]);
@@ -479,17 +479,16 @@ void eightProc(double size)
 
     kill(getpid(), SIGTERM);
   } else {
-    long double child1;
-    long double child2;
-    long double child3;
-    long double child4;
-    long double child5;
-    long double child6;
-    long double child7;
-    long double child8;
+    double child1;
+    double child2;
+    double child3;
+    double child4;
+    double child5;
+    double child6;
+    double child7;
+    double child8;
     long double hyTan;
 
-    printf("startings child 1\n");
     close(pipeArray[0][0]);
     write(pipeArray[0][1], &size, sizeof(size));
     close(pipeArray[0][1]);
@@ -500,7 +499,6 @@ void eightProc(double size)
     read(pipeArray[1][0], &child1, sizeof(child1));
     close(pipeArray[1][0]);
 
-    printf("startings child 2\n");
     close(pipeArray[2][0]);
     write(pipeArray[2][1], &size, sizeof(size));
     close(pipeArray[2][1]);
@@ -511,7 +509,6 @@ void eightProc(double size)
     read(pipeArray[3][0], &child2, sizeof(child2));
     close(pipeArray[3][0]);
 
-    printf("startings child 3\n");
     close(pipeArray[4][0]);
     write(pipeArray[4][1], &size, sizeof(size));
     close(pipeArray[4][1]);
@@ -522,7 +519,6 @@ void eightProc(double size)
     read(pipeArray[5][0], &child3, sizeof(child3));
     close(pipeArray[5][0]);
 
-    printf("startings child 4\n");
     close(pipeArray[6][0]);
     write(pipeArray[6][1], &size, sizeof(size));
     close(pipeArray[6][1]);
@@ -533,7 +529,6 @@ void eightProc(double size)
     read(pipeArray[7][0], &child4, sizeof(child4));
     close(pipeArray[7][0]);
 
-    printf("startings child 5\n");
     close(pipeArray[8][0]);
     write(pipeArray[8][1], &size, sizeof(size));
     close(pipeArray[8][1]);
@@ -544,7 +539,6 @@ void eightProc(double size)
     read(pipeArray[9][0], &child5, sizeof(child5));
     close(pipeArray[9][0]);
 
-    printf("startings child 6\n");
     close(pipeArray[10][0]);
     write(pipeArray[10][1], &size, sizeof(size));
     close(pipeArray[10][1]);
@@ -555,7 +549,6 @@ void eightProc(double size)
     read(pipeArray[11][0], &child6, sizeof(child6));
     close(pipeArray[11][0]);
 
-    printf("startings child 7\n");
     close(pipeArray[12][0]);
     write(pipeArray[12][1], &size, sizeof(size));
     close(pipeArray[12][1]);
@@ -566,7 +559,6 @@ void eightProc(double size)
     read(pipeArray[13][0], &child7, sizeof(child7));
     close(pipeArray[13][0]);
 
-    printf("startings child 8\n");
     close(pipeArray[14][0]);
     write(pipeArray[14][1], &size, sizeof(size));
     close(pipeArray[14][1]);
