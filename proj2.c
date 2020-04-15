@@ -6,11 +6,9 @@
 // ***********************************************
 #include <stdio.h>
 
-void fifo(FILE *fp, int frames, int pages)
+void fifo(int frames, int pages, int read[])
 {
-    int page_faults = 0, read;
-    char buff[255];
-
+    int page_faults = 0;
     int temp[frames];
     for(int i = 0; i < frames; i++)
     {
@@ -19,11 +17,9 @@ void fifo(FILE *fp, int frames, int pages)
     for(int i = 0; i < pages; i++)
     {
         int s = 0;
-        fscanf(fp, "%s", buff);
-        read = atoi(buff);
         for(int j = 0; j < frames; j++)
         {
-            if(read == temp[j])
+            if(read[i] == temp[j])
             {
                 s++;
                 page_faults--;
@@ -32,11 +28,11 @@ void fifo(FILE *fp, int frames, int pages)
         page_faults++;
         if((page_faults <= frames) && (s == 0))
         {
-            temp[i] = read;
+            temp[i] = read[i];
         }
         else if(s == 0)
         {
-            temp[(page_faults - 1) % frames] = read;
+            temp[(page_faults - 1) % frames] = read[i];
         }
         printf("\n");
         for(int j = 0; j < frames; j++)
@@ -44,26 +40,19 @@ void fifo(FILE *fp, int frames, int pages)
             printf("%d\t", temp[j]);
         }
     }
-    page_faults -= frames;
     printf("\ntotal page faults: %d\n", page_faults);
 }
 
-void lru(FILE *fp, int frameSize, int total_pages)
+void lru(int total_frames, int total_pages, int pages[])
 {
-    int page_faults = 0, position;
     char buff[255];
 
-    int temp[total_pages], frames[frameSize], pages[total_pages],;
-    int total_pages, m, n, position, k, l, total_frames;
+    int temp[total_pages], frames[total_frames];
+    int m, n, position, k, l;
     int a = 0, b = 0, page_fault = 0;
     for(m = 0; m < total_frames; m++)
     {
         frames[m] = -1;
-    }
-    for(m = 0; m < total_pages; m++)
-    {
-        fscanf(fp, "%s", buff);
-        pages[i] = atoi(buff);
     }
     for(n = 0; n < total_pages; n++)
     {
@@ -119,22 +108,16 @@ void lru(FILE *fp, int frameSize, int total_pages)
             printf("%d\t", frames[m]);
         }
     }
-    printf("\nTotal Number of Page Faults:\t%d\n", page_fault);
+    printf("\nTotal Number of Page Faults: %d\n", page_fault);
 }
 
-void clock(FILE *fp, int frames, int pages)
+void clock(int frames, int pages, int read[])
 {
-    int temp[frames], use[frames], read[pages], page_faults, locat, found;
-    char buff[255];
+    int temp[frames], use[frames], page_faults, locat, found;
     for(int i = 0; i < frames; i++)
     {
         temp[i] = -1;
         use[i] = 0;
-    }
-    for(int i = 0; i < pages; i++)
-    {
-        fscanf(fp, "%s", buff);
-        read[i] = atoi(buff);
     }
     page_faults = 0;
     locat = 0;
@@ -143,10 +126,10 @@ void clock(FILE *fp, int frames, int pages)
         found = 0;
         for(int j = 0; j < frames; j++)
         {
-            if(read[i] == temp[j])
+            if(temp[j] == read[i])
             {
-                found = 1;
                 use[j] = 1;
+                found = 1;
                 break;
             }
         }
@@ -157,13 +140,15 @@ void clock(FILE *fp, int frames, int pages)
                 {
                     temp[locat] = read[i];
                     use[locat] = 1;
-                    found = 1;
                     page_faults++;
-                } else {
-                  use[locat] = 0;
+                    found = 1;
+                }
+                else
+                {
+                    use[locat] = 0;
                 }
                 locat++;
-                if(locat == i)
+                if(locat == frames)
                     locat = 0;
             } while(found != 1);
         }
@@ -177,19 +162,13 @@ void clock(FILE *fp, int frames, int pages)
     printf("\ntotal page faults: %d\n", page_faults);
 }
 
-void optimal(FILE *fp, int frames, int pages)
+void optimal(int frames, int pages, int read[])
 {
-    int temp[frames], read[pages], interval[frames];
+    int temp[frames], interval[frames];
     int page_faults, flag, found, position, maxInterval, prev = -1;
-    char buff[255];
     for(int i = 0; i < frames; i++)
     {
         temp[i] = -1;
-    }
-    for(int i = 0; i < pages; i++)
-    {
-        fscanf(fp, "%s", buff);
-        read[i] = atoi(buff);
     }
     page_faults = 0;
     for(int i = 0; i < pages; i++)
@@ -264,26 +243,34 @@ void optimal(FILE *fp, int frames, int pages)
 int main(int argc, char** argv)
 {
     FILE *fp;
+    char buff[255];
 
     //read in command line arguments
     char *fileName = argv[1];
     int minFrames = atoi(argv[2]);
     int maxFrames = atoi(argv[3]);
     int pages = atoi(argv[4]);
+    int read[pages];
 
     fp = fopen(fileName, "r");
 
-    //printf("FIFO \n");
-    //fifo(fp, maxFrames, pages);
+    for(int i = 0; i < pages; i++)
+    {
+        fscanf(fp, "%s", buff);
+        read[i] = atoi(buff);
+    }
 
-    //printf("\nLRU \n");
-    lru(fp, maxFrames, pages);
+    printf("FIFO \n");
+    fifo(maxFrames, pages, read);
 
-    //printf("\nClock \n");
-    //clock(fp, maxFrames, pages);
+    printf("\nLRU \n");
+    lru(maxFrames, pages, read);
 
-    //printf("\nOptimal \n");
-    //optimal(fp, maxFrames, pages);
+    printf("\nClock \n");
+    clock(maxFrames, pages, read);
+
+    printf("\nOptimal \n");
+    optimal(maxFrames, pages, read);
 
     fclose(fp);
 }
