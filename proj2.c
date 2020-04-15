@@ -48,27 +48,29 @@ void fifo(FILE *fp, int frames, int pages)
     printf("\ntotal page faults: %d\n", page_faults);
 }
 
-void lru(FILE *fp, int frameSize, int pages)
+void lru(FILE *fp, int frameSize, int total_pages)
 {
     int page_faults = 0, position;
     char buff[255];
 
-    int temp[pages], frames[frameSize], read[pages], time[pages];
-    for(int i = 0; i < frameSize; i++)
+    int temp[total_pages], frames[frameSize], pages[total_pages],;
+    int total_pages, m, n, position, k, l, total_frames;
+    int a = 0, b = 0, page_fault = 0;
+    for(m = 0; m < total_frames; m++)
     {
-        frames[i] = -1;
+        frames[m] = -1;
     }
-    for(int i = 0; i < pages; i++)
+    for(m = 0; m < total_pages; m++)
     {
         fscanf(fp, "%s", buff);
-        read[i] = atoi(buff);
+        pages[i] = atoi(buff);
     }
-    for(int i = 0; i < pages; i++)
+    for(n = 0; n < total_pages; n++)
     {
-        int a = 0, b = 0;
-        for(int j = 0; j < frameSize; j++)
+        a = 0, b = 0;
+        for(m = 0; m < total_frames; m++)
         {
-            if(frames[j] == read[i])
+            if(frames[m] == pages[n])
             {
                 a = 1;
                 b = 1;
@@ -77,11 +79,11 @@ void lru(FILE *fp, int frameSize, int pages)
         }
         if(a == 0)
         {
-            for(int j = 0; j < frameSize; j++)
+            for(m = 0; m < total_frames; m++)
             {
-                if(frames[j] == -1)
+                if(frames[m] == -1)
                 {
-                    frames[j] = read[i];
+                    frames[m] = pages[n];
                     b = 1;
                     break;
                 }
@@ -89,35 +91,35 @@ void lru(FILE *fp, int frameSize, int pages)
         }
         if(b == 0)
         {
-            for(int j = 0; j < frameSize; j++)
+            for(m = 0; m < total_frames; m++)
             {
-                temp[j] = 0;
+                temp[m] = 0;
             }
-            for(int k = i - 1, l = 1; l <= frameSize; l++, k--)
+            for(k = n - 1, l = 1; l <= total_frames - 1; l++, k--)
             {
-                for(int j = 0; j < frameSize; j++)
+                for(m = 0; m < total_frames; m++)
                 {
-                    if(frames[j] == read[k])
+                    if(frames[m] == pages[k])
                     {
-                        temp[j] = 1;
+                        temp[m] = 1;
                     }
                 }
             }
-            for(int j = 0; j < frameSize; j++)
+            for(m = 0; m < total_frames; m++)
             {
-                if(temp[j] == 0)
-                    position = j;
+                if(temp[m] == 0)
+                    position = m;
             }
-            frames[position] = read[i];
-            page_faults++;
+            frames[position] = pages[n];
+            page_fault++;
         }
         printf("\n");
-        for(int j = 0; j < frameSize; j++)
+        for(m = 0; m < total_frames; m++)
         {
-            printf("%d\t", frames[j]);
+            printf("%d\t", frames[m]);
         }
     }
-    printf("\ntotal page faults: %d\n", page_faults);
+    printf("\nTotal Number of Page Faults:\t%d\n", page_fault);
 }
 
 void clock(FILE *fp, int frames, int pages)
