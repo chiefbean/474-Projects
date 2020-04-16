@@ -143,6 +143,7 @@ int clock(int frames, int pages, int read[])
             } while(found != 1);
         }
     }
+    page_faults -= frames;
     return page_faults;
 }
 
@@ -215,6 +216,7 @@ int optimal(int frames, int pages, int read[])
             page_faults++;
         }
     }
+    page_faults -= frames;
     return page_faults;
 }
 
