@@ -142,9 +142,7 @@ int clock(int frames, int pages, int read[])
                     locat = 0;
             } while(found != 1);
         }
-        printf("\n");
     }
-    page_faults -= frames;
     return page_faults;
 }
 
@@ -217,7 +215,6 @@ int optimal(int frames, int pages, int read[])
             page_faults++;
         }
     }
-    page_faults -= frames;
     return page_faults;
 }
 
@@ -251,7 +248,27 @@ int main(int argc, char** argv)
 
     fclose(fp);
 
-    printf("+ FIFO +----------------------+");
-    printf("| Total page faults: %d       |", fifoFaults);
-    printf("+-----------------------------+");
+    printf("+ FIFO +----------------------+\n");
+    printf("| Number of Frames: %-5d     |\n", maxFrames);
+    printf("| Number of Pages: %-5d      |\n", pages);
+    printf("| Total page faults: %-5d    |\n", fifoFaults);
+    printf("+-----------------------------+\n\n");
+
+    printf("+ LRU +-----------------------+\n");
+    printf("| Number of Frames: %-5d     |\n", maxFrames);
+    printf("| Number of Pages: %-5d      |\n", pages);
+    printf("| Total page faults: %-5d    |\n", lruFaults);
+    printf("+-----------------------------+\n\n");
+
+    printf("+ Clock +---------------------+\n");
+    printf("| Number of Frames: %-5d     |\n", maxFrames);
+    printf("| Number of Pages: %-5d      |\n", pages);
+    printf("| Total page faults: %-5d    |\n", clockFaults);
+    printf("+-----------------------------+\n\n");
+
+    printf("+ Optimal +-------------------+\n");
+    printf("| Number of Frames: %-5d     |\n", maxFrames);
+    printf("| Number of Pages: %-5d      |\n", pages);
+    printf("| Total page faults: %-5d    |\n", optFaults);
+    printf("+-----------------------------+\n\n");
 }
